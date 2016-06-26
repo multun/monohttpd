@@ -1,4 +1,3 @@
-
 // for memset
 #include <string.h>
 
@@ -19,7 +18,7 @@ void	config_socket(t_address *addr, int *sock, int port)
 {
   const int true_opt = 1;
 
-  WPERROR((*sock = socket(AF_INET, SOCK_STREAM, 0)) == -1, "socket");
+  WPERROR(*sock = socket(AF_INET, SOCK_STREAM, 0), "socket");
 
   /* setting up the socket*/
   (*addr).sa_in.sin_family = AF_INET;
@@ -59,10 +58,33 @@ int	wait_for_client(
     {
       /* accept connexion */
       WPERROR(new_fd = accept(sockfd, &(client_addr.sa), &sin_size), "accept");
-      //printf("Connexion from %s\n",inet_ntoa(client_addr.sa_in.sin_addr));
+      printf("Connexion from %s\n",inet_ntoa(client_addr.sa_in.sin_addr));
       stopping = callback(new_fd, &client_addr, params);
       close_socket(new_fd);
     }
   close_socket(sockfd);
   return 0;
+}
+
+
+void	blocking_send(int sockfd, const char *buf, size_t size)
+{
+  size_t	sent = 0;
+  while (sent < size)
+  {
+    int	send_ret;
+    WPERROR(send_ret = send(sockfd, buf + sent, size - sent, 0), "send");
+    sent += send_ret;
+  }
+}
+
+void	blocking_recv(int sockfd, char *buf, size_t size)
+{
+  size_t	recved = 0;
+  while (recved < size)
+  {
+    int	send_ret;
+    WPERROR(send_ret = recv(sockfd, buf + recved, size - recved, 0), "recv");
+    recved += send_ret;
+  }
 }

@@ -4,6 +4,7 @@
 #include "error.h"
 #include "strconv.h"
 #include "args_parser.h"
+#include "rand.h"
 
 static const char HELP_MSG[] = "\
 Use: monohttpd [OPTIONS] file\n\n\
@@ -14,7 +15,7 @@ Option\t\tDetails\n\
  -m <max>\t\tSets a maximum number of connexion attempts\n\
 ";
 
-void print_help(void)
+void	print_help(void)
 {
   // not a format string, but still safe to print
   printf(HELP_MSG);
@@ -22,7 +23,7 @@ void print_help(void)
 
 
 // here because of the 25 lines limitation
-void parse_nonpos(int argc, char *argv[], t_http_params *params)
+void	parse_nonpos(int argc, char *argv[], t_http_params *params)
 {
   char	*argval;
   int curarg;
@@ -57,9 +58,16 @@ void parse_args(int argc, char *argv[], t_http_params *params)
   if (optind < argc)
   {
     if (optind + 1 != argc)
-      FAIL("too many file specified");
+      FAIL("too many files specified");
     params->file = argv[optind];
   }
   else
     FAIL("missing file to send");
+}
+
+
+void	args_logic(t_http_params *params)
+{
+  if (params->token == NULL)
+    params->token = rand_str(params->token_len);
 }

@@ -11,6 +11,7 @@ typedef struct s_http_params
 
 } t_http_params;
 
-void parse_args(int argc, char *argv[], t_http_params *params);
+void	parse_args(int argc, char *argv[], t_http_params *params);
+void	args_logic(t_http_params*);
 
 #endif

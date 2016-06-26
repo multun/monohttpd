@@ -4,17 +4,24 @@
 #include "args_parser.h"
 #include "tcp.h"
 #include "http.h"
+#include "rand.h"
+#include "client.h"
 
 int main(int argc, char *argv[])
 {
-  t_http_params params;
-  params.port		= 4242;
-  params.token		= NULL;
-  params.token_len	= 12;
-  params.max_conn	= 1;
-  params.file		= NULL;
+  t_http_params params =
+    {
+      .port		= 4242,
+      .token		= NULL,
+      .token_len	= 12,
+      .max_conn		= 1,
+      .file		= NULL,
+    };
+
+  rand_init();
 
   parse_args(argc, argv, &params);
+  args_logic(&params);
 
 
 # ifdef DEBUG
@@ -31,7 +38,7 @@ file\t\t%s\n",
 	 params.file);
 # endif
 
+  printf("curl http://0.0.0.0:%d/%s", params.port, params.token);
   wait_for_client(handle_client, &params);
-
   return (EXIT_SUCCESS);
 }

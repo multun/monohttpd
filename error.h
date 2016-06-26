@@ -4,6 +4,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+// ignores an unused parameter warning
+#define UNUSED(...) (void)(__VA_ARGS__)
 
 /*
 ** Prints a formatted error message and exits
@@ -18,7 +20,11 @@
   } while (0)
 
 # define WPERROR(CALL, NAME)			\
-  if ((CALL))					\
+  if ((CALL) == -1)				\
+    PERROR(NAME)
+
+# define WZPERROR(CALL, NAME)			\
+  if ((CALL) == NULL)				\
     PERROR(NAME)
 
 # define FAIL(format, ...)						      \

@@ -3,21 +3,32 @@
 
 #include "error.h"
 
-long int	fsize(FILE* fd)
+size_t	fsize(FILE* fd)
 {
   long int size;
   long init_pos;
 
   // probably more portable that fstat, which isn't POSIX
 
-  if(fd != NULL)
+  WPERROR((init_pos = ftell(fd)), "ftell");
+  WPERROR(fseek(fd, 0, SEEK_END), "fseek");
+  WPERROR(size = ftell(fd), "ftell");
+  WPERROR(fseek(fd, init_pos, SEEK_SET), "fseek");
+  return size;
+}
+
+char	*getfname(char path[])
+{
+  char *fname, *cur;
+  cur = fname = path;
+  while (*cur)
     {
-      WPERROR((init_pos = ftell(fd)), "ftell");
-      WPERROR(fseek(fd, 0, SEEK_END), "fseek");
-      WPERROR(((size = ftell(fd)) == -1), "ftell");
-      WPERROR(fseek(fd, init_pos, SEEK_SET), "fseek");
-      return size;
+      if (*cur == '/')
+	fname = cur;
+      cur++;
     }
-  else
-    return -1;
+  fname++;
+  if (!*fname)
+    FAIL("path cannot end with a slash");
+  return fname;
 }
