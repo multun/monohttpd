@@ -43,9 +43,15 @@ $(EXEC): $(OBJ)
 	@echo "Building the main binary file..."
 	@$(CC) -o $@ $^ $(LDFLAGS)
 
-main.o: error.h args.h
-args_parser.o: error.h
 
+args.o: args.h error.h
+args_parser.o: args_parser.h args.o error.h strconv.o rand.o
+client.o: client.h http.o tcp.o args_parser.o netinit.h error.h
+file_tools.o: file_tools.h error.h
+http.o: http.h netinit.h tcp.o error.h file_tools.o
+tcp.o: netinit.h error.h args_parser.o
+
+main.o: args_parser.o tcp.o http.o rand.o client.o
 
 # règle générique pour tous les dépendances en .o, avec un pipe pour les arguments de comp.
 %.o: %.c
