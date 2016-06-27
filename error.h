@@ -23,8 +23,12 @@
   if ((CALL) == -1)				\
     PERROR(NAME)
 
-# define WZPERROR(CALL, NAME)			\
+# define WNPERROR(CALL, NAME)			\
   if ((CALL) == NULL)				\
+    PERROR(NAME)
+
+# define WZPERROR(CALL, NAME)			\
+  if ((CALL) == 0)				\
     PERROR(NAME)
 
 # define FAIL(format, ...)						      \
