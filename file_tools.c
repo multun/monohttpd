@@ -26,7 +26,8 @@ char	*getfname(char path[])
 	fname = cur;
       cur++;
     }
-  fname++;
+  if (fname != path)
+    fname++;
   if (!*fname)
     FAIL("path cannot end with a slash");
   return fname;
