@@ -1,8 +1,8 @@
 # monohttpd
 
-A simple HTTP server meant to share a single file with people on your local network.
+A simple HTTP server meant to serve a single file.
 
-Should compile under linux 2.6+. This program makes use of the sendfile syscall, which is known to be broken under Mac OSX.
+Should compile under linux 2.6+. This program uses the sendfile syscall, which is known to be broken under Mac OSX.
 
 It requires GCC as well as a decent OS.
 
