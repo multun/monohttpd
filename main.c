@@ -6,6 +6,7 @@
 #include "http.h"
 #include "rand.h"
 #include "client.h"
+#include "iptools.h"
 
 int main(int argc, char *argv[])
 {
@@ -40,7 +41,11 @@ file\t\t%s\n",
   puts("============================");
 # endif
 
-  printf("serving at >> http://0.0.0.0:%d/%s <<\n", params.port, params.token);
+  printf(
+    "serving at >> http://%s:%d/%s <<\n",
+    getip(),
+    params.port,
+    params.token);
   wait_for_client(handle_client, &params);
   return (EXIT_SUCCESS);
 }

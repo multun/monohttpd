@@ -52,7 +52,7 @@ http.o: http.h netinit.h tcp.o error.h file_tools.o
 tcp.o: netinit.h error.h args_parser.o
 iptools.o: iptools.h netinit.h error.h
 
-main.o: args_parser.o tcp.o http.o rand.o client.o
+main.o: args_parser.o tcp.o http.o rand.o client.o iptools.o
 
 # règle générique pour tous les dépendances en .o, avec un pipe pour les arguments de comp.
 %.o: %.c
