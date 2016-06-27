@@ -4,7 +4,6 @@ CFLAGS= -DDEBUG -Wall -Wno-missing-braces -Wextra -Wno-missing-field-initializer
 
 CFLAGS_BUILD=-O3 -Wall -Wextra
 
-#pthread pour le threading, et ld pour les modules
 LDFLAGS=
 EXEC=monohttpd
 
@@ -20,7 +19,7 @@ OBJ= $(SRC:.c=.o)
 ##	du fichier sans suffixe
 
 #la directive all doit lister tous les executables à produire
-all: $(EXEC)
+all: build
 
 
 FUZZ_CC=afl-gcc
@@ -36,7 +35,9 @@ fuzz: fuzzbuild
 	AFL_SKIP_CPUFREQ=1 afl-fuzz -i in -o out $(EXEC) @@
 
 build: CFLAGS=$(CFLAGS_BUILD)
-build: clean all
+build: $(EXEC)
+
+debug: $(EXEC)
 
 
 $(EXEC): $(OBJ)
