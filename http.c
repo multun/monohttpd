@@ -4,10 +4,10 @@
 #include <string.h>
 
 // includes for open()
-/*#include <sys/types.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-*/
+
 #include "netinit.h"
 #include "tcp.h"
 #include "error.h"
@@ -59,17 +59,17 @@ void	send_string(int sfd, char code[], char string[])
 
 void	send_file(int sfd, char code[], char path[])
 {
-  FILE*		file;
+  int		fd;
   ssize_t	sent;
   size_t	size;
 
-  WZPERROR(file = fopen(path, "r"), "fopen");
-  size = fsize(file);
+  WPERROR(fd = open(path, 0, O_RDONLY), "open");
+  size = fsize(fd);
 
   send_file_header(sfd, code, getfname(path), size);
 
   WPERROR(
-    sent = sendfile(sfd, fileno(file), NULL, size),
+    sent = sendfile(sfd, fd, NULL, size),
     "sendfile");
-  WPERROR(fclose(file), "fclose");
+  WPERROR(close(fd), "close");
 }
