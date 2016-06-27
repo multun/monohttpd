@@ -3,18 +3,17 @@
 
 #include "error.h"
 
-size_t	fsize(FILE* fd)
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+
+size_t	fsize(int fd)
 {
-  long int size;
-  long init_pos;
+  struct stat fstats;
 
-  // probably more portable that fstat, which isn't POSIX
-
-  WPERROR((init_pos = ftell(fd)), "ftell");
-  WPERROR(fseek(fd, 0, SEEK_END), "fseek");
-  WPERROR(size = ftell(fd), "ftell");
-  WPERROR(fseek(fd, init_pos, SEEK_SET), "fseek");
-  return size;
+  WPERROR(fstat(fd, &fstats), "fstat");
+  return fstats.st_size;
 }
 
 char	*getfname(char path[])
