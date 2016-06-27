@@ -19,8 +19,9 @@ OBJ= $(SRC:.c=.o)
 ##	du fichier sans suffixe
 
 #la directive all doit lister tous les executables à produire
-all: build
 
+
+all: build
 
 FUZZ_CC=afl-gcc
 FUZZ_CFLAGS=-static
@@ -73,3 +74,8 @@ install:
 
 uninstall:
 	rm --interactive=never /usr/bin/$(EXEC)
+
+ARGS?=-t test -l 42 $(EXEC)
+
+valgrind: debug
+	valgrind --show-reachable=yes --dsymutil=yes --tool=memcheck --leak-check=full --track-origins=yes ./$(EXEC) $(ARGS)
