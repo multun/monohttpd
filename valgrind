@@ -1,2 +1,0 @@
-#!/bin/sh
-valgrind --show-reachable=yes --dsymutil=yes --tool=memcheck --leak-check=full --track-origins=yes ./monohttpd
