@@ -66,3 +66,9 @@ clean:
 	find ./ -type f -name '*.o' -delete
 mrproper: clean
 	rm -rf $(EXEC)
+
+install:
+	install -t /usr/bin/ $(EXEC)
+
+uninstall:
+	rm --interactive=never /usr/bin/$(EXEC)
