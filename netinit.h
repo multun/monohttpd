@@ -1,6 +1,8 @@
 #ifndef NETINIT_H_
 # define NETINIT_H_
 
+
+#include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>

@@ -50,6 +50,7 @@ client.o: client.h http.o tcp.o args_parser.o netinit.h error.h
 file_tools.o: file_tools.h error.h
 http.o: http.h netinit.h tcp.o error.h file_tools.o
 tcp.o: netinit.h error.h args_parser.o
+iptools.o: iptools.h netinit.h error.h
 
 main.o: args_parser.o tcp.o http.o rand.o client.o
 
