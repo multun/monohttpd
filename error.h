@@ -41,3 +41,6 @@
     exit(EXIT_FAILURE);							\
   } while(0)
 #endif
+
+# define WARN(format, ...)						      \
+    fprintf(stderr, "WARNING\t" format "\n", ##__VA_ARGS__)

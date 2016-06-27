@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 
 
 # ifdef DEBUG
+  puts("============================");
   printf("\
 port\t\t%d\n\
 token\t\t%s\n\
@@ -36,9 +37,10 @@ file\t\t%s\n",
 	 params.token_len,
 	 params.max_conn,
 	 params.file);
+  puts("============================");
 # endif
 
-  printf("curl http://0.0.0.0:%d/%s", params.port, params.token);
+  printf("serving at >> http://0.0.0.0:%d/%s <<\n", params.port, params.token);
   wait_for_client(handle_client, &params);
   return (EXIT_SUCCESS);
 }
